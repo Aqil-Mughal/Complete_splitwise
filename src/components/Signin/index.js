@@ -42,7 +42,7 @@ export default function SignIn() {
       setErrorMsg(errorMessage);
         console.log(errorCode, errorMessage);
 })
-        };
+      };
 
       }
     return (

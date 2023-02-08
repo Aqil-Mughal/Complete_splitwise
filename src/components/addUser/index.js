@@ -1,9 +1,11 @@
-import React , { useState }from "react";
+import { useState, useEffect } from "react";
+import { onValue, ref } from "firebase/database";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 // import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
+import { database } from "../Signin/firebase";
 // import { Email } from "firebase/auth";
 // import { auth } from "./Signin/firebase";
 
@@ -22,19 +24,29 @@ const style = {
 };
 
 export default function UserModal({ mail, setMail }) {
-  const [open, setOpen] = React.useState(false);
-  const [text, setText] = React.useState("");
- 
-
+  const [open, setOpen] = useState(false);
+  const [text, setText] = useState("");
+  const [email, setEmail] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
- 
+
   const handleSave = () => {
-    setMail([...mail,text]);
+    console.log(email);
+    const domeMail = email;
+    if (email.indexOf(text) === -1) {
+      alert("User Does not Exist");
+      return;
+    }
+    setMail([...mail, text]);
     handleClose();
   };
-  
-
+  useEffect(() => {
+    const readRef = ref(database, "/");
+    onValue(readRef, (snap) => {
+      const data = snap.val();
+      setEmail(data.emails);
+    });
+  }, []);
   return (
     <div>
       <Button
@@ -59,7 +71,7 @@ export default function UserModal({ mail, setMail }) {
             onChange={(event) => setText(event.target.value)}
             style={{ width: "100%", marginBottom: 5 }}
           />
-         <Button
+          <Button
             size="small"
             variant="contained"
             style={{ backgroundColor: "#48be9d" }}
