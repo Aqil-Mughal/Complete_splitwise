@@ -20,9 +20,9 @@ function Expense() {
           <h3>Dashboard</h3>
           <div style={{ display: "flex" }}>
             <BasicModal />
-            {/* <Button variant="contained" style={{ backgroundColor: "#48be9d" }}>
+            <Button variant="contained" style={{ backgroundColor: "#48be9d" }}>
               settle up
-            </Button> */}
+            </Button>
           </div>
         </header>
         <div className="header_content">
